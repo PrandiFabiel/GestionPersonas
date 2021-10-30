@@ -47,10 +47,7 @@ namespace GestionPersonas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AportesAporteId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("PersonaId")
+                    b.Property<int>("AporteId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("TipoAporteId")
@@ -61,9 +58,7 @@ namespace GestionPersonas.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AportesAporteId");
-
-                    b.HasIndex("PersonaId");
+                    b.HasIndex("AporteId");
 
                     b.HasIndex("TipoAporteId");
 
@@ -194,19 +189,15 @@ namespace GestionPersonas.Migrations
                 {
                     b.HasOne("GestionPersonas.Entidades.Aportes", null)
                         .WithMany("DetalleAporte")
-                        .HasForeignKey("AportesAporteId");
-
-                    b.HasOne("GestionPersonas.Entidades.Personas", "Persona")
-                        .WithMany()
-                        .HasForeignKey("PersonaId");
+                        .HasForeignKey("AporteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("GestionPersonas.Entidades.TiposAportes", "TiposAporte")
                         .WithMany()
                         .HasForeignKey("TipoAporteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Persona");
 
                     b.Navigation("TiposAporte");
                 });

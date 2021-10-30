@@ -13,18 +13,19 @@ namespace GestionPersonas.Entidades
         [Key]
         public int Id { get; set; }
         public int TipoAporteId { get; set; }
+        public int AporteId { get; set; }
         public float Valor { get; set; }
-        public Personas Persona { get; set; }
+       
 
         [ForeignKey("TipoAporteId")]
-        public TiposAportes TiposAporte { get; set; }
+        public virtual TiposAportes TiposAporte { get; set; }
+
 
         public AportesDetalle()
         {
             Id = 0;
             TipoAporteId = 0;
             Valor = 0;
-            Persona = null;
             TiposAporte = null;
         }
         public AportesDetalle(int tipoId, float valor, Personas persona, TiposAportes tipo)
@@ -32,7 +33,6 @@ namespace GestionPersonas.Entidades
             Id = 0;
             TipoAporteId = tipoId;
             Valor = valor;
-            Persona = persona;
             TiposAporte = tipo;
 
         }

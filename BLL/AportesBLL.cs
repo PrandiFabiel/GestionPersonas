@@ -27,13 +27,14 @@ namespace GestionPersonas.BLL
             try
             {
                 //Agregar la entidad que se desea insertar al contexto
-                contexto.Aportes.Add(aporte);
 
                 foreach (var detalle in aporte.DetalleAporte)
                 {
                     detalle.TiposAporte.Logrado += aporte.Monto;
-                    detalle.Persona.TotalAportado += detalle.Valor;
+
+                    contexto.Entry(detalle.TiposAporte).State = EntityState.Modified;
                 }
+                contexto.Aportes.Add(aporte);
 
                 paso = contexto.SaveChanges() > 0;
             }
@@ -57,14 +58,12 @@ namespace GestionPersonas.BLL
                 var aporteAnterior = contexto.Aportes
                     .Where(x => x.AporteId == aporte.AporteId)
                     .Include(x => x.DetalleAporte)
-                    .ThenInclude(x => x.Persona)
                     .AsNoTracking()
                     .SingleOrDefault();
 
                 //busca la entidad en la base de datos y la elimina
                 foreach (var detalle in aporteAnterior.DetalleAporte)
-                {
-                    detalle.Persona.TotalAportado -= aporte.Monto;
+                { 
                     detalle.TiposAporte.Logrado -= detalle.Valor;
                 }
 
@@ -72,7 +71,7 @@ namespace GestionPersonas.BLL
 
                 foreach (var item in aporte.DetalleAporte)
                 {
-                    item.Persona.TotalAportado += aporte.Monto;
+
                     item.TiposAporte.Logrado += item.Valor;
                     contexto.Entry(item).State = EntityState.Added;
                 }
@@ -106,7 +105,6 @@ namespace GestionPersonas.BLL
                     //busca la entidad en la base de datos y la elimina
                     foreach (var detalle in aporte.DetalleAporte)
                     {
-                        detalle.Persona.TotalAportado -= aporte.Monto;
                         detalle.TiposAporte.Logrado -= detalle.Valor;
                     }
 
@@ -135,7 +133,6 @@ namespace GestionPersonas.BLL
                 aporte = contexto.Aportes.Include(x => x.DetalleAporte)
                     .Where(x => x.AporteId == id)
                      .Include(x => x.DetalleAporte)
-                    .ThenInclude(x => x.Persona)
                     .SingleOrDefault();
             }
             catch (Exception)

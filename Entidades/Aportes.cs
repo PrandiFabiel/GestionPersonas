@@ -19,6 +19,7 @@ namespace GestionPersonas.Entidades
 
         [ForeignKey("PersonaId")]
         public virtual Personas Persona { get; set; }
-        public List<AportesDetalle> DetalleAporte { get; set; } = new List<AportesDetalle>();
+        [ForeignKey("AporteId")]
+        public virtual List<AportesDetalle> DetalleAporte { get; set; } = new List<AportesDetalle>();
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GestionPersonas.Migrations
 {
-    public partial class Migracion_Inicial2 : Migration
+    public partial class Migracion : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -130,25 +130,18 @@ namespace GestionPersonas.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     TipoAporteId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Valor = table.Column<float>(type: "REAL", nullable: false),
-                    PersonaId = table.Column<int>(type: "INTEGER", nullable: true),
-                    AportesAporteId = table.Column<int>(type: "INTEGER", nullable: true)
+                    AporteId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Valor = table.Column<float>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AportesDetalle", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AportesDetalle_Aportes_AportesAporteId",
-                        column: x => x.AportesAporteId,
+                        name: "FK_AportesDetalle_Aportes_AporteId",
+                        column: x => x.AporteId,
                         principalTable: "Aportes",
                         principalColumn: "AporteId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AportesDetalle_Personas_PersonaId",
-                        column: x => x.PersonaId,
-                        principalTable: "Personas",
-                        principalColumn: "PersonaId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_AportesDetalle_TiposAportes_TipoAporteId",
                         column: x => x.TipoAporteId,
@@ -163,14 +156,9 @@ namespace GestionPersonas.Migrations
                 column: "PersonaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AportesDetalle_AportesAporteId",
+                name: "IX_AportesDetalle_AporteId",
                 table: "AportesDetalle",
-                column: "AportesAporteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AportesDetalle_PersonaId",
-                table: "AportesDetalle",
-                column: "PersonaId");
+                column: "AporteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AportesDetalle_TipoAporteId",

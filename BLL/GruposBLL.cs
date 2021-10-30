@@ -26,13 +26,15 @@ namespace GestionPersonas.BLL
 
             try
             {
-                //Agregar la entidad que se desea insertar al contexto
-                contexto.Grupos.Add(grupo);
 
                 foreach (var detalle in grupo.Detalle)
                 {
                     detalle.Persona.CantidadGrupos += 1;
+                    contexto.Entry(detalle.Persona).State = EntityState.Modified;
+                    
                 }
+                //Agregar la entidad que se desea insertar al contexto
+                contexto.Grupos.Add(grupo);
 
                 paso = contexto.SaveChanges() > 0;
             }

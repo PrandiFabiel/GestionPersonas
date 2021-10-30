@@ -73,13 +73,14 @@ namespace GestionPersonas.UI.Registros
 
         private void AgregarFilaButton_Click(object sender, RoutedEventArgs e)
         {
-            aporte.DetalleAporte.Add(new AportesDetalle
-               ((int)TipoAporteComboBox.SelectedValue,
-               float.Parse(ValorTextBox.Text),
-               (Personas)PersonaComboBox.SelectedItem,
-               (TiposAportes)TipoAporteComboBox.SelectedItem));
+            var detalle = new AportesDetalle
+            {
 
+                TiposAporte = (TiposAportes)TipoAporteComboBox.SelectedItem,
+                Valor = float.Parse(ValorTextBox.Text)
+            };
 
+            aporte.DetalleAporte.Add(detalle);
             aporte.Monto += float.Parse(ValorTextBox.Text);
             Cargar();
 

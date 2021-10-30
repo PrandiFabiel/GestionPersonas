@@ -18,7 +18,7 @@ namespace GestionPersonas.Entidades
         public string Orden { get; set; }
 
         [ForeignKey("PersonaId")]
-        public Personas Persona { get; set; }
+        public virtual Personas Persona { get; set; }
 
 
     }
